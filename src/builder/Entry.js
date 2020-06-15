@@ -52,22 +52,7 @@ class Entry {
      * @param {Object} extraction
      */
     addExtraction(extraction) {
-        if (!Mix.bundlingJavaScript && !extraction.output) {
-            throw new Error(
-                'Please provide an output path as the second argument to mix.extract().'
-            );
-        }
-
-        let vendorPath = extraction.output
-            ? new File(extraction.output)
-                  .pathFromPublic(Config.publicPath)
-                  .replace(/\.js$/, '')
-                  .replace(/\\/g, '/')
-            : path.join(this.base, 'vendor').replace(/\\/g, '/');
-
-        this.add(vendorPath, extraction.libs);
-
-        return vendorPath;
+        this.structure[extraction.output] = (this.structure[extraction.output] || []).concat(extraction.libs)
     }
 
     /**
